@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -129,6 +130,9 @@ namespace Presentation.ViewModels.UC
             try
             {
                 IsLoading = true;
+
+                Thread.Sleep(5000);
+
                 var list = await service.FetchAllAsync();
 
 
@@ -165,15 +169,11 @@ namespace Presentation.ViewModels.UC
             var selectedQueues = QueuesFilter.Where(q => q.IsSelected).Select(q => q.Name).ToArray();
 
             StringBuilder sb = new StringBuilder();
-            //foreach (string str in selectedQueues)
-            //{
-            //    sb.AppendLine($"{str},"); 
-            //}
+
             for (int i = 0; i < selectedQueues.Length; i++)
             {
                 sb.Append(selectedQueues[i]);
 
-                // Añadir una coma si no es el último elemento
                 if (i < selectedQueues.Length - 1)
                 {
                     sb.Append(", ");

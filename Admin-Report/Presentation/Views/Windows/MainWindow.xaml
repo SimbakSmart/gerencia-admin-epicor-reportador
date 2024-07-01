@@ -31,7 +31,7 @@
             <md:PackIcon Kind="WhiteBalanceSunny" 
                          Height="45" Width="25"  
                          HorizontalAlignment="Center" 
-                         Margin="3 0" />
+                         Margin="15 0 7 0" />
 
             <ToggleButton
                 HorizontalAlignment="Right"

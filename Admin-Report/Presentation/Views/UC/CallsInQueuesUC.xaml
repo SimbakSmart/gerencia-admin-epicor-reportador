@@ -21,71 +21,94 @@
             <md:Card Padding="5" Margin="10"
                           md:ElevationAssist.Elevation="Dp4">
 
-                <!--<ComboBox x:Name="comboBox">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding DisplayText}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>-->
-                <!--<ComboBox
-                                ItemsSource="{Binding QueuesFilter}"
-                                 md:HintAssist.Hint="Seleccionar queue"
-                                Width="300"
-                                DisplayMemberPath="Name"
-                                SelectedValuePath="Name"                         
-                                Padding="6"
-                               Style="{StaticResource MaterialDesignOutlinedComboBox}"         
-                               SelectedValue="{Binding SearchTerm, Mode=TwoWay}"/>-->
+                <ge:ResponsiveGrid>
 
-                <StackPanel Orientation="Horizontal">
-                    
-                     <ComboBox
+
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
+                        <StackPanel Orientation="Horizontal">
+
+                            <ComboBox
     ItemsSource="{Binding QueuesFilter}"
     Width="300"
     md:HintAssist.Hint="Seleccionar queues"
     Padding="6"
     Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
-                    <!--Button Search-->
-                    <Button 
+                            <!--Button Search-->
+                            <Button 
                                      Command="{Binding SearchCommand}"
                                      Style="{StaticResource MaterialDesignOutlinedDarkButton}"
                                      ToolTip="Presinar para busqueda"
                                      HorizontalAlignment="Center"
                                      Margin="5">
-                        <md:PackIcon Kind="Magnify" Width="25" Height="25" />
-                    </Button>
+                                <md:PackIcon Kind="Magnify" Width="25" Height="25" />
+                            </Button>
 
-                </StackPanel>
+                        </StackPanel>
+                    </Border>
 
-               
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
+
+                        <StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
+
+                            <TextBlock Text="{Binding TotalRecords, StringFormat='Total Registros: {0:n0}'}" 
+                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       HorizontalAlignment="Center"
+                                         Margin="5" />
+
+                        </StackPanel>
+
+                    </Border>
+                    
+                    
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12" >
+                        <StackPanel Margin="5">
+                            <DataGrid ItemsSource="{Binding ItemList}"  
+                                     AutoGenerateColumns="True" 
+                                      Height="850"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      IsReadOnly="True"
+                                      EnableRowVirtualization="True"
+                                      EnableColumnVirtualization = "true" />
+
+                        </StackPanel>
+                    </Border>
 
 
+
+                </ge:ResponsiveGrid>
             </md:Card>
 
         </ScrollViewer>
 
+        <md:Card   
+            Opacity="0.8"
+       Visibility="{Binding IsLoading,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}">
 
-        <!--<StackPanel>
-            <TextBlock Text="{Binding TotalRecords}" />
-            <DataGrid ItemsSource="{Binding ItemList}"  
-                  Width="1000"
-                  Height="800"
-                  AutoGenerateColumns="True" />
-        </StackPanel>-->
-        
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                <ProgressBar
+    Margin="0 100 0 0"
+   IsIndeterminate="True"
+   Width="50"
+   Height="50"
+   Style="{StaticResource MaterialDesignCircularProgressBar}"
+   Value="50" />
+                <TextBlock Text="Cargando..." />
+            </StackPanel>
+
+        </md:Card>
 
     </Grid>
 </UserControl>

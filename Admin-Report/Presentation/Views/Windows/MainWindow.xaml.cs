@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Presentation.ViewModels.Windows;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Presentation.Views.Windows
@@ -11,6 +12,7 @@ namespace Presentation.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel(this);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

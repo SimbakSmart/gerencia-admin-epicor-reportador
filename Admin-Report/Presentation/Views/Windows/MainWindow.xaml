@@ -10,17 +10,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        WindowStyle="None">
+        MouseLeftButtonDown="{Binding DragCommand}"
+        WindowStyle="None"
+        >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel />
-    </Window.DataContext>
+    </Window.DataContext>-->
 
-
+    <!--MouseLeftButtonDown="Window_MouseLeftButtonDown"-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -32,27 +33,27 @@
             HorizontalAlignment="Right">
 
             <Button x:Name="btnMinimize" 
-                    Click="btnMinimize_Click"
+                    Command="{Binding MinimizeCommand}"
                     Width="40" Height="23" 
                     Margin="1 0"
-                 Style="{StaticResource MaterialDesignRaisedDarkButton}" >
+                 Style="{StaticResource MaterialDesignRaisedDarkButton}">
 
                 <md:PackIcon Kind="WindowMinimize" />
             </Button>
 
-            <Button x:Name="btnMaximize"  
-                      Click="btnMaximize_Click"
+            <Button x:Name="btnMaximize"                    
+                    Command="{Binding MaximizeCommand}"
                       Width="40" Height="23" Margin="1 0" 
                      Style="{StaticResource MaterialDesignRaisedDarkButton}">
                 <md:PackIcon Kind="WindowMaximize"  Height="15" Width="10"/>
             </Button>
 
-            <Button x:Name="btnClose"  
+            <Button x:Name="btnClose"       
+                    Command="{Binding CloseCommand}"
                     Width="40" 
                     Height="23" 
                     Margin="1 0"
-              Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                    Click="btnClose_Click">
+              Style="{StaticResource MaterialDesignRaisedDarkButton}">
                 <md:PackIcon Kind="Close"  
                              Height="23" Width="25"
                              HorizontalAlignment="Center"

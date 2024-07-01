@@ -4,9 +4,66 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation.Views.Windows"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:Presentation.ViewModels.Windows"
+        Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        WindowStyle="None">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+            Orientation="Horizontal" 
+            HorizontalAlignment="Right">
+
+            <Button x:Name="btnMinimize" 
+                    Click="btnMinimize_Click"
+                    Width="40" Height="23" 
+                    Margin="1 0"
+                 Style="{StaticResource MaterialDesignRaisedDarkButton}" >
+
+                <md:PackIcon Kind="WindowMinimize" />
+            </Button>
+
+            <Button x:Name="btnMaximize"  
+                      Click="btnMaximize_Click"
+                      Width="40" Height="23" Margin="1 0" 
+                     Style="{StaticResource MaterialDesignRaisedDarkButton}">
+                <md:PackIcon Kind="WindowMaximize"  Height="15" Width="10"/>
+            </Button>
+
+            <Button x:Name="btnClose"  
+                    Width="40" 
+                    Height="23" 
+                    Margin="1 0"
+              Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                    Click="btnClose_Click">
+                <md:PackIcon Kind="Close"  
+                             Height="23" Width="25"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+            </Button>
+
+
+        </StackPanel>
+
+        <md:Card Grid.Row="1" Padding="32" Margin="16">
+            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">My First Material Design App</TextBlock>
+        </md:Card>
     </Grid>
 </Window>

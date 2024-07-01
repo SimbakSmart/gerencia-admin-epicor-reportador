@@ -9,8 +9,8 @@ namespace Presentation
     {
         public App()
         {
-            MainWindow = new MainWindow();
-            MainWindow.Show();
+            //MainWindow = new MainWindow();
+            //MainWindow.Show();
         }
     }
 }

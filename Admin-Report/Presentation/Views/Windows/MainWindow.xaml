@@ -6,27 +6,49 @@
         xmlns:local="clr-namespace:Presentation.Views.Windows"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:vm="clr-namespace:Presentation.ViewModels.Windows"
+        xmlns:uc="clr-namespace:Presentation.Views.UC"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        MouseLeftButtonDown="{Binding DragCommand}"
+       MouseLeftButtonDown="Window_MouseLeftButtonDown"
         WindowStyle="None"
         >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
 
-    <!--<Window.DataContext>
-        <vm:MainWindowViewModel />
-    </Window.DataContext>-->
-
-    <!--MouseLeftButtonDown="Window_MouseLeftButtonDown"-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+         Orientation="Horizontal" 
+         HorizontalAlignment="Left">
+
+            <md:PackIcon Kind="WhiteBalanceSunny" 
+                         Height="45" Width="25"  
+                         HorizontalAlignment="Center" 
+                         Margin="3 0" />
+
+            <ToggleButton
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center" 
+                Margin="3 0"
+                IsChecked="{Binding IsDarkMode, Mode=TwoWay}"
+                Command="{Binding ToggleThemeCommand}"/>
+
+            <md:PackIcon Kind="MoonWaxingCrescent" 
+                         Height="45" Width="25"  
+                         HorizontalAlignment="Center" 
+                         Margin="3 0"/>
+
+
+          
+        </StackPanel>
+        
 
         <StackPanel Grid.Row="0"
             Orientation="Horizontal" 
@@ -63,8 +85,9 @@
 
         </StackPanel>
 
-        <md:Card Grid.Row="1" Padding="32" Margin="16">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">My First Material Design App</TextBlock>
-        </md:Card>
+        <StackPanel Grid.Row="1">
+            <uc:CallsInQueuesUC />
+        </StackPanel>
+
     </Grid>
 </Window>

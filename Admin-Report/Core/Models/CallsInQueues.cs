@@ -27,11 +27,13 @@ namespace Core.Models
 
         public string Priority { get; set; }
 
-        public string  Attribute { get; set; }
+        public string Attribute { get; set; }
 
         public string Value { get; set; }
 
         public string EventSummary { get; set; }
+
+        public string Product { get; set; }
 
         public CallsInQueues()
         {
@@ -131,6 +133,13 @@ namespace Core.Models
                 supportCall.EventSummary = eventSummary;
                 return this;
             }
+
+            public CallsInQueuesBuilder WithProduct(string product)
+            {
+                supportCall.Product = product;
+                return this;
+            }
+
 
 
             public CallsInQueues Build()

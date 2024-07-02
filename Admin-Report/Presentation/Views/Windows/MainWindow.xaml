@@ -9,7 +9,11 @@
         xmlns:uc="clr-namespace:Presentation.Views.UC"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+         Title="Reporteador de Epicor" 
+        Height="700" 
+        Width="900"
+        MinHeight="600"
+        MinWidth="700" 
         WindowStartupLocation="CenterScreen"
        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         WindowStyle="None"
@@ -54,7 +58,7 @@
             Orientation="Horizontal" 
             HorizontalAlignment="Right">
 
-            <Button x:Name="btnMinimize" 
+            <Button 
                     Command="{Binding MinimizeCommand}"
                     Width="40" Height="23" 
                     Margin="1 0"
@@ -63,14 +67,14 @@
                 <md:PackIcon Kind="WindowMinimize" />
             </Button>
 
-            <Button x:Name="btnMaximize"                    
+            <Button                   
                     Command="{Binding MaximizeCommand}"
                       Width="40" Height="23" Margin="1 0" 
                      Style="{StaticResource MaterialDesignRaisedDarkButton}">
                 <md:PackIcon Kind="WindowMaximize"  Height="15" Width="10"/>
             </Button>
 
-            <Button x:Name="btnClose"       
+            <Button     
                     Command="{Binding CloseCommand}"
                     Width="40" 
                     Height="23" 

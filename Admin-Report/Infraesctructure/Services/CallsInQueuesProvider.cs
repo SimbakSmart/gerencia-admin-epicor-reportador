@@ -47,6 +47,7 @@ namespace Infraesctructure.Services
                                     .WithAttribute(reader["Attribute"].ToString())
                                     .WithValue(reader["Value"].ToString())
                                     .WithEventSummary(reader["EventSummary"].ToString())
+                                    .WithProduct(reader["Product"].ToString())
                                     .Build());
                             }
                         }

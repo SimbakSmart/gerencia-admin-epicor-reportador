@@ -13,8 +13,9 @@
     <UserControl.DataContext>
         <vm:CallsInQueuesUCViewModel />
     </UserControl.DataContext>
-    
-    
+
+
+
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
@@ -28,15 +29,19 @@
                         <StackPanel Orientation="Horizontal">
 
                             <ComboBox
-    ItemsSource="{Binding QueuesFilter}"
-    Width="300"
-    md:HintAssist.Hint="Seleccionar queues"
-    Padding="6"
-    Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                                <ComboBox.ItemTemplate>
+                                ItemsSource="{Binding QueuesFilter}"
+                                Width="300"
+                                md:HintAssist.Hint="Seleccionar queues"
+                                Padding="6"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBox.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource ComboBoxItemStyle}" TargetType="ComboBoxItem"/>
+                                </ComboBox.ItemContainerStyle>
+
+                                <ComboBox.ItemTemplate >
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5"/>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -50,6 +55,15 @@
                                      HorizontalAlignment="Center"
                                      Margin="5">
                                 <md:PackIcon Kind="Magnify" Width="25" Height="25" />
+                            </Button>
+
+                            <Button 
+                                  Command="{Binding RefreshCommand}" 
+                                 Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                                 ToolTip="Presinar para busqueda"
+                                 HorizontalAlignment="Center"
+                                 Margin="5">
+                                <md:PackIcon Kind="Broom" Width="25" Height="25" />
                             </Button>
 
                         </StackPanel>
@@ -72,15 +86,40 @@
                     <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12" >
                         <StackPanel Margin="5">
                             <DataGrid ItemsSource="{Binding ItemList}"  
-                                     AutoGenerateColumns="True" 
-                                      Height="850"
+                                     AutoGenerateColumns="False" 
+                                      Height="877"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"
                                       CanUserAddRows="False"
                                       CanUserDeleteRows="False"
                                       IsReadOnly="True"
                                       EnableRowVirtualization="True"
-                                      EnableColumnVirtualization = "true" />
+                                      EnableColumnVirtualization = "true">
+
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="{x:Type DataGridColumnHeader}"
+                                    BasedOn="{StaticResource CustomDataGridHeaderStyle}" />
+                                </DataGrid.ColumnHeaderStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Support Call ID" Binding="{Binding SupporCallID}" Visibility="Hidden" />
+                                    <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
+                                    <DataGridTextColumn Header="Types" Binding="{Binding Types}" />
+                                    <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" />
+                                    <DataGridTextColumn Header="Queue" Binding="{Binding Queue}" />
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                                    <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" />
+                                    <DataGridTextColumn Header="Open Date" Binding="{Binding OpenDate}" />
+                                    <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" />
+                                    <DataGridTextColumn Header="Product" Binding="{Binding Product}" />
+                                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" />
+                                    <DataGridTextColumn Header="Date Assign To" Binding="{Binding DateAssignTo}" />
+                                    <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" />
+                                    <DataGridTextColumn Header="Attributes" Binding="{Binding Attribute}" />
+                                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                                    <DataGridTextColumn Header="Event Summary" Binding="{Binding EventSummary}" />
+                                </DataGrid.Columns>
+
+                            </DataGrid>
 
                         </StackPanel>
                     </Border>

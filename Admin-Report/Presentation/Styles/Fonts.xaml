@@ -40,5 +40,10 @@
         <Setter Property="Height" Value="28" />
     </Style>
 
+    <Style x:Key="ComboBoxItemStyle" TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="#1976d2"/>
+        <Setter Property="Foreground" Value="#fafafa" />
+    </Style>
+
 
 </ResourceDictionary>

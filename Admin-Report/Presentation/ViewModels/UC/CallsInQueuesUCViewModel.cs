@@ -5,6 +5,9 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Infraesctructure.Interfaces;
 using Infraesctructure.Services;
+using Notifications.Wpf;
+using Presentation.Helpers;
+using Presentation.Utils;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -115,9 +118,8 @@ namespace Presentation.ViewModels.UC
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message.ToString());
-                //  NotifiactionHelper
-                //.SetMessage("Error", ex.Message.ToString(),
-                //           NotificationType.Error);
+                NotifiactionMessage
+                    .SetMessage("Error", GlobalMessages.INTERNAL_SERVER_ERROR, NotificationType.Error);
             }
             finally
             {
@@ -125,17 +127,15 @@ namespace Presentation.ViewModels.UC
             }
         }
 
-        public async Task LoadDataAsync()
+        public async Task LoadDataAsync(string queryParams="")
         {
             try
             {
                 IsLoading = true;
 
-                Thread.Sleep(5000);
+               // Thread.Sleep(5000);
 
-                var list = await service.FetchAllAsync();
-
-
+                var list = await service.FetchAllAsync(queryParams);
 
                 if (list != null) 
                 {
@@ -153,9 +153,8 @@ namespace Presentation.ViewModels.UC
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message.ToString());
-              //  NotifiactionHelper
-              //.SetMessage("Error", ex.Message.ToString(),
-              //           NotificationType.Error);
+                NotifiactionMessage
+                    .SetMessage("Error", GlobalMessages.INTERNAL_SERVER_ERROR, NotificationType.Error);
             }
             finally
             {

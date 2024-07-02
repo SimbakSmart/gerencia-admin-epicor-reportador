@@ -27,7 +27,7 @@
                 <ge:ResponsiveGrid>
 
 
-                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="8" >
                         <StackPanel Orientation="Horizontal">
 
                             <ComboBox
@@ -62,7 +62,7 @@
                             <TextBox Text="{Binding SearchByNumber, UpdateSourceTrigger=PropertyChanged}"
                                      Width="155"
                                         Padding="6"
-                                         md:HintAssist.Hint="Number queue..."
+                                         md:HintAssist.Hint="Ingresar number.."
                                          md:HintAssist.IsFloating="True" 
                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                         HorizontalAlignment="Center"
@@ -74,6 +74,40 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </TextBox>
+
+
+                            <TextBox Text="{Binding ValueShortText, UpdateSourceTrigger=PropertyChanged}"
+                               Width="155"
+                                  Padding="6"
+                                   md:HintAssist.Hint="Ingresar value..."
+                                   md:HintAssist.IsFloating="True" 
+                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                  HorizontalAlignment="Center"
+                                  Margin="5">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="KeyDown">
+                                        <cmd:EventToCommand Command="{Binding SearchByValueKeyDownCommand}"
+                                  PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBox Text="{Binding SearchByAttribute, UpdateSourceTrigger=PropertyChanged}"
+                                Width="155"
+                                   Padding="6"
+                                    md:HintAssist.Hint="Ingresar attribute..."
+                                    md:HintAssist.IsFloating="True" 
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   HorizontalAlignment="Center"
+                                   Margin="5">
+                                       <i:Interaction.Triggers>
+                                      <i:EventTrigger EventName="KeyDown">
+                                        <cmd:EventToCommand Command="{Binding SearchByAttributeKeyDownCommand}"
+                                   PassEventArgsToCommand="True" />         
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
 
 
                             <Button 
@@ -88,9 +122,18 @@
                         </StackPanel>
                     </Border>
 
-                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="4" >
 
                         <StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
+
+                            <Button
+                              Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                              ToolTip="MaterialDesignOutlinedButton"
+                                Command="{Binding ExcelReportCommand}"
+                             HorizontalAlignment="Center"
+                             Margin="5">
+                                <md:PackIcon Kind="MicrosoftExcel" Width="28" Height="28" />
+                            </Button>
 
                             <TextBlock Text="{Binding TotalRecords, StringFormat='Total Registros: {0:n0}'}" 
                                  Style="{StaticResource MaterialDesignHeadline6TextBlock}"

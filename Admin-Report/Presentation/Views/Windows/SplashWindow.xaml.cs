@@ -52,12 +52,8 @@ namespace Presentation.Views.Windows
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // Este método se ejecuta en el hilo de interfaz de usuario principal cuando el trabajo en segundo plano está completo
 
-            // Cerrar SplashWindow
-          //  this.Close();
            this.Hide();
-            // Abrir MainWindow
             MainWindow mainWindow = new MainWindow();
             mainWindow.ShowDialog();
         }

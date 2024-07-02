@@ -12,12 +12,16 @@
          Title="Reporteador de Epicor" 
         Height="700" 
         Width="900"
-        MinHeight="600"
-        MinWidth="700" 
+        MinHeight="940"
+        MinWidth="1400" 
+       
         WindowStartupLocation="CenterScreen"
        MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        WindowStyle="None"
-        >
+        WindowStyle="None">
+
+    <!--WindowState="Maximized"-->
+
+
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>

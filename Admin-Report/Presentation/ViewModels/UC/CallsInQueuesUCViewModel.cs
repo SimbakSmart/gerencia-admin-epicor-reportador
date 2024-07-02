@@ -362,8 +362,6 @@ namespace Presentation.ViewModels.UC
         }
 
 
-
-
         public async Task RefrehAsync()
         {
             try

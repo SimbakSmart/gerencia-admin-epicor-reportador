@@ -193,9 +193,21 @@
 
         </ScrollViewer>
 
+        <Button
+            Margin="0 0 50 35"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+           ToolTip="MaterialDesignFloatingActionButton">
+            <md:PackIcon
+          Width="30"
+          Height="30"
+          Kind="FilterSettingsOutline" />
+        </Button> 
+
         <md:Card   
             Opacity="0.8"
-       Visibility="{Binding IsLoading,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}">
+          Visibility="{Binding IsLoading,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}">
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
 

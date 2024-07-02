@@ -4,6 +4,7 @@ namespace Presentation.Utils
     public static  class GlobalMessages
     {
         public static readonly string SUCCESS = "La consulta se generó con éxito.";
+        public static readonly string REFRESH = "Los filtros fuero limpidaso y tabla recargada.";
         public static readonly string UNAUTHORIZED = "No autorizado. Por favor, inicie sesión o verifique sus credenciales.";
         public static readonly string NOT_FOUND = "Consulta inválida favor de  revisar la información e intente de nuevo.";
         public static readonly string BAD_REQUEST = "La peticion no pudo ser ejecutada ,Vuelve a intentarlo más tarde.";

@@ -61,6 +61,9 @@ namespace Presentation.ViewModels.UC
             }
         }
 
+
+
+
         private int totalRecords;
 
         public int TotalRecords
@@ -73,15 +76,36 @@ namespace Presentation.ViewModels.UC
             }
         }
 
+
+        private string searchByNumber;
+
+        public string SearchByNumber
+        {
+            get { return searchByNumber; }
+
+            set
+            {
+                searchByNumber = value;
+                RaisePropertyChanged(nameof(SearchByNumber));
+            }
+        }
+
+
         public ICommand SearchCommand { get; private set; }
+    
+        public RelayCommand<KeyEventArgs> SearchByNumberKeyDownCommand { get; private set; }
+        public ICommand RefreshCommand { get; private set; }
 
         public CallsInQueuesUCViewModel()
         {
             IsLoading = false;
-            TotalRecords = 0;
+            TotalRecords = 0; 
             service = new CallsInQueuesProvider();
 
-            SearchCommand = new RelayCommand(SearchAsync);
+            SearchCommand = new AsyncRelayCommand(SearchAsync);
+
+            SearchByNumberKeyDownCommand = new RelayCommand<KeyEventArgs>(SearchByNumberKeyDown);
+            RefreshCommand = new AsyncRelayCommand(RefrehAsync);
 
             Task.Run(async () =>
             {
@@ -91,6 +115,9 @@ namespace Presentation.ViewModels.UC
             });
 
         }
+
+     
+
 
         private async Task LoadFilters()
         {
@@ -102,15 +129,6 @@ namespace Presentation.ViewModels.UC
                 
                 if (filters != null)
                 {
-
-                    //var start = new Queue
-                    //{
-                    //    Name = "Todos Los Registors",
-                    //    QueueID = "Todos Los Registros",
-                    //    IsSelected = true,
-                    //};
-                    //filters.Insert(0,start);
-
                     QueuesFilter = new ObservableCollection<Queue>(filters);
                 }
 
@@ -162,24 +180,116 @@ namespace Presentation.ViewModels.UC
             }
         }
 
-        public void SearchAsync()
+        public async Task SearchAsync()
         {
 
-            var selectedQueues = QueuesFilter.Where(q => q.IsSelected).Select(q => q.Name).ToArray();
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < selectedQueues.Length; i++)
+            try
             {
-                sb.Append(selectedQueues[i]);
+                var selectedQueues = QueuesFilter.Where(q => q.IsSelected).Select(q => q.Name).ToArray();
 
-                if (i < selectedQueues.Length - 1)
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < selectedQueues.Length; i++)
                 {
-                    sb.Append(", ");
+                    sb.Append($"'{selectedQueues[i]}'");
+
+                    if (i < selectedQueues.Length - 1)
+                    {
+                        sb.Append(", ");
+                    }
+                }
+
+                if (string.IsNullOrEmpty(sb.ToString()) ||
+                    string.IsNullOrWhiteSpace(sb.ToString()))
+                {
+                    NotifiactionMessage
+                    .SetMessage("No Valido", "Es necesario ingresar un valor de busqueda",
+                               NotificationType.Error);
+                    return;
+                }
+
+                string queryParam = $" AND  Que.Name IN ({sb})";
+
+                await LoadDataAsync(queryParam);
+                ClearFilters();
+                NotifiactionMessage
+               .SetMessage("Información", GlobalMessages.SUCCESS,
+                       NotificationType.Success);
+
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionMessage
+                    .SetMessage("Error", GlobalMessages.INTERNAL_SERVER_ERROR, NotificationType.Error);
+            }
+            
+        }
+
+        private async void SearchByNumberKeyDown(KeyEventArgs args)
+        {
+            try
+            {     
+                if (args.Key == Key.Enter)
+                {
+
+                    if (string.IsNullOrEmpty(SearchByNumber) ||
+                     string.IsNullOrWhiteSpace(SearchByNumber))
+                    {
+                        NotifiactionMessage
+                        .SetMessage("No Valido", "Es necesario ingresar un valor de busqueda",
+                                   NotificationType.Error);
+                        return;
+                    }
+
+                    string number = SearchByNumber;
+                    //string queryParam = $" AND Sc.Number={number} OR Av.ValueShortText={number}"; //OR VALUE= {number}
+                    string queryParam = $" AND Sc.Number='{number}'  OR Av.ValueShortText='{number}' "; //OR VALUE= {number}
+                    await LoadDataAsync(queryParam);
+                    NotifiactionMessage
+                   .SetMessage("Información", GlobalMessages.SUCCESS,
+                           NotificationType.Success);
                 }
             }
-
-            MessageBox.Show(sb.ToString());
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionMessage
+                    .SetMessage("Error", GlobalMessages.INTERNAL_SERVER_ERROR, NotificationType.Error);
+            }
         }
+
+
+
+        public async Task RefrehAsync()
+        {
+            try
+            {
+                IsLoading = false;
+                await LoadDataAsync(string.Empty);
+                ClearFilters();
+                NotifiactionMessage
+               .SetMessage("Información", GlobalMessages.REFRESH,
+                       NotificationType.Information);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionMessage
+                    .SetMessage("Error", GlobalMessages.INTERNAL_SERVER_ERROR, NotificationType.Error);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void ClearFilters()
+        {
+            SearchByNumber = string.Empty;
+        }
+
+
     }
 }

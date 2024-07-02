@@ -7,6 +7,8 @@
              xmlns:vm="clr-namespace:Presentation.ViewModels.UC"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ge="clr-namespace:SourceChord.GridExtra;assembly=GridExtra.Wpf"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -56,6 +58,23 @@
                                      Margin="5">
                                 <md:PackIcon Kind="Magnify" Width="25" Height="25" />
                             </Button>
+
+                            <TextBox Text="{Binding SearchByNumber, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="155"
+                                        Padding="6"
+                                         md:HintAssist.Hint="Number queue..."
+                                         md:HintAssist.IsFloating="True" 
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        HorizontalAlignment="Center"
+                                        Margin="5">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="KeyDown">
+                                        <cmd:EventToCommand Command="{Binding SearchByNumberKeyDownCommand}"
+                                        PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
 
                             <Button 
                                   Command="{Binding RefreshCommand}" 

@@ -10,5 +10,7 @@ namespace Infraesctructure.Interfaces
     {
         Task<List<CallsInQueues>> FetchAllAsync(string queryParams = "");
         Task<List<Queue>> FetchQueuesAsync();
+
+        (bool, string) TestConnection();
     }
 }

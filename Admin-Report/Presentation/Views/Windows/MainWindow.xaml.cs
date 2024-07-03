@@ -4,9 +4,10 @@ using System.Windows.Input;
 
 namespace Presentation.Views.Windows
 {
-  
+
     public partial class MainWindow : Window
     {
+       
         public MainWindow()
         {
             InitializeComponent();

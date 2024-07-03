@@ -1,18 +1,22 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Infraesctructure.Interfaces;
+using Infraesctructure.Services;
+using MaterialDesignThemes.Wpf;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 
 namespace Presentation.Views.Windows
 {
-    /// <summary>
-    /// Interaction logic for SplashWindow.xaml
-    /// </summary>
+
     public partial class SplashWindow : Window
     {
+        private ICallsInQueuesProvider _service;
+        private bool _isConnected = false;
+        private string _message= string.Empty;
         public SplashWindow()
         {
             InitializeComponent();
+           _service = new CallsInQueuesProvider();
             UpdateTheme();
         }
         private void Window_ContentRendered(object sender, System.EventArgs e)
@@ -20,42 +24,41 @@ namespace Presentation.Views.Windows
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
+           // worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
         }
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            var result = _service.TestConnection();
+
+            _isConnected = result.Item1;
+            _message = result.Item2;    
+
             for (int i = 0; i < 100; i++)
             {
                 (sender as BackgroundWorker).ReportProgress(i);
-                Thread.Sleep(80);
+                Thread.Sleep(70);
             }
 
-        }
-
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-           // progressBar.Value = e.ProgressPercentage;
-
-            //if (progressBar.Value == 100)
-            //{
-            //    MainWindow mainWindow = new MainWindow();
-            //    Close();
-            //    mainWindow.ShowDialog();
-            //}
-          
-            //MainWindow mainWindow = new MainWindow();
-            //this.Close();
-            //mainWindow.ShowDialog();
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
-           this.Hide();
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.ShowDialog();
+            if (_isConnected)
+            {
+                this.Hide();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.ShowDialog();
+            }
+            else
+            {
+              
+            MessageBox.Show(_message,
+                            "Error de conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
         }
 
         private void UpdateTheme()

@@ -15,6 +15,31 @@ namespace Infraesctructure.Services
         private string connectionString = DBContext.GetConnectionString;
 
         private string query = string.Empty;
+
+        public (bool, string) TestConnection()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    Debug.WriteLine("Conexión establecida correctamente.");
+                    return (true, "Conexión establecida correctamente.");
+                }
+            }
+            catch (SqlException ex)
+            {
+                Debug.WriteLine("Error al conectar con la base de datos: " + ex.Message);
+                return (false, "Error al conectar con la base de datos: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error general: " + ex.Message);
+                return (false, "Error general: " + ex.Message);
+            }
+        }
+
+
         public async Task<List<CallsInQueues>> FetchAllAsync(string queryParams = "")
         {
             List<CallsInQueues> list = new List<CallsInQueues>();
@@ -47,6 +72,7 @@ namespace Infraesctructure.Services
                                     .WithAttribute(reader["Attribute"].ToString())
                                     .WithValue(reader["Value"].ToString())
                                     .WithEventSummary(reader["EventSummary"].ToString())
+                                    .WithDetail(reader["Detail"].ToString())
                                     .WithProduct(reader["Product"].ToString())
                                     .Build());
                             }
@@ -96,5 +122,7 @@ namespace Infraesctructure.Services
                 return null;
             }
         }
+
+        
     }
 }

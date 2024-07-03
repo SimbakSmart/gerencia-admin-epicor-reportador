@@ -34,6 +34,7 @@ namespace Core.Models
         public string EventSummary { get; set; }
 
         public string Product { get; set; }
+        public string Detail { get; set; }
 
         public CallsInQueues()
         {
@@ -139,6 +140,14 @@ namespace Core.Models
                 supportCall.Product = product;
                 return this;
             }
+
+            public CallsInQueuesBuilder WithDetail(string detail)
+            {
+                supportCall.Detail= detail;
+                return this;
+            }
+
+
 
 
 

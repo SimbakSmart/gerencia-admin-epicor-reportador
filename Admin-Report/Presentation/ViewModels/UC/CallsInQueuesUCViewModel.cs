@@ -193,7 +193,7 @@ namespace Presentation.ViewModels.UC
             {
                 IsLoading = true;
 
-               // Thread.Sleep(5000);
+                //Thread.Sleep(5000);
 
                  list = await service.FetchAllAsync(queryParams);
 

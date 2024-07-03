@@ -36,6 +36,8 @@ namespace Core.Models
         public string Product { get; set; }
         public string Detail { get; set; }
 
+        public string Comments { get; set; }    
+
         public CallsInQueues()
         {
 
@@ -144,6 +146,12 @@ namespace Core.Models
             public CallsInQueuesBuilder WithDetail(string detail)
             {
                 supportCall.Detail= detail;
+                return this;
+            }
+
+            public CallsInQueuesBuilder WithComments(string comments)
+            {
+                supportCall.Comments = comments;
                 return this;
             }
 

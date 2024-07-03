@@ -1,6 +1,7 @@
 ﻿using Infraesctructure.Interfaces;
 using Infraesctructure.Services;
 using MaterialDesignThemes.Wpf;
+using Presentation.Services;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -13,10 +14,12 @@ namespace Presentation.Views.Windows
         private ICallsInQueuesProvider _service;
         private bool _isConnected = false;
         private string _message= string.Empty;
+        private MessagesRepository localStorate;
         public SplashWindow()
         {
             InitializeComponent();
            _service = new CallsInQueuesProvider();
+             localStorate = new MessagesRepository();
             UpdateTheme();
         }
         private void Window_ContentRendered(object sender, System.EventArgs e)
@@ -24,7 +27,6 @@ namespace Presentation.Views.Windows
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
-           // worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
         }

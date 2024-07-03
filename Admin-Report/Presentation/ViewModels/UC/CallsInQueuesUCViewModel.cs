@@ -9,6 +9,7 @@ using Infraesctructure.Services;
 using Microsoft.Win32;
 using Notifications.Wpf;
 using Presentation.Helpers;
+using Presentation.Services;
 using Presentation.Utils;
 using SpreadsheetLight;
 using System;
@@ -27,7 +28,8 @@ namespace Presentation.ViewModels.UC
 {
     public class CallsInQueuesUCViewModel:ViewModelBase
     {
-        ICallsInQueuesProvider service;
+        private ICallsInQueuesProvider service;
+        private MessagesRepository localStorate;
 
         private List<CallsInQueues> list;
 
@@ -140,6 +142,7 @@ namespace Presentation.ViewModels.UC
             IsLoading = false;
             TotalRecords = 0; 
             service = new CallsInQueuesProvider();
+            localStorate = new MessagesRepository();
             list = new List<CallsInQueues>();
 
             SearchCommand = new AsyncRelayCommand(SearchAsync);
@@ -196,17 +199,43 @@ namespace Presentation.ViewModels.UC
                 //Thread.Sleep(5000);
 
                  list = await service.FetchAllAsync(queryParams);
+               
 
                 if (list != null) 
                 {
-                   TotalRecords = list.Count;
-                    ItemList = new ObservableCollection<CallsInQueues>(list);
-                }
 
-               var filters = await service.FetchQueuesAsync();
-                if(filters != null)
-                {
-                    QueuesFilter = new ObservableCollection<Queue>(filters);
+                    var listSqlite = localStorate.GetAll();
+
+                    var result = from SqlServer in list
+                                 join  Sqlite in listSqlite
+                                 on new { SqlServer.Number, SqlServer.Value, SqlServer.Attribute } 
+                                 equals new { Sqlite.Number, Sqlite.Value, Sqlite.Attribute }
+                                 into joined
+                                 from Sqlite in joined.DefaultIfEmpty() 
+                                 select new CallsInQueues
+                                 {
+                                     Number = SqlServer.Number,
+                                     Types = SqlServer.Types,
+                                     Summary = SqlServer.Summary,
+                                     Queue= SqlServer.Queue,
+                                     Status= SqlServer.Status,
+                                     Priority= SqlServer.Priority,
+                                     OpenDate = SqlServer.OpenDate,
+                                     DueDate = SqlServer.DueDate,  
+                                     Product= SqlServer.Product,
+                                     StartDate = SqlServer.StartDate,
+                                     DateAssignTo = SqlServer.DateAssignTo,
+
+                                     Attribute = SqlServer.Attribute,
+                                     Value = SqlServer.Value,
+                                     EventSummary = SqlServer.EventSummary,
+                                      Detail = SqlServer.Detail,                     
+                                     Comments = Sqlite != null ? Sqlite.Comments : null
+                                 };
+
+
+                    TotalRecords = list.Count;
+                    ItemList = new ObservableCollection<CallsInQueues>(result);
                 }
 
             }
@@ -285,7 +314,7 @@ namespace Presentation.ViewModels.UC
                         return;
                     }
 
-                    string queryParam = $" AND Sc.Number='{SearchByNumber}' "; 
+                    string queryParam = $" AND Sc.Number LIKE '%{SearchByNumber}%' "; 
                     await LoadDataAsync(queryParam);
                     NotifiactionMessage
                    .SetMessage("Información", GlobalMessages.SUCCESS,
@@ -315,7 +344,7 @@ namespace Presentation.ViewModels.UC
                                    NotificationType.Error);
                         return;
                     }
-                    string queryParam = $" AND Av.ValueShortText='{ValueShortText}' ";
+                    string queryParam = $" AND Av.ValueShortText LIKE '%{ValueShortText}%' ";
                     await LoadDataAsync(queryParam);
                     NotifiactionMessage
                    .SetMessage("Información", GlobalMessages.SUCCESS,

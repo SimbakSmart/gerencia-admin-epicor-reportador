@@ -61,7 +61,8 @@
                                 </Button>
 
                                 <TextBox Text="{Binding SearchByNumber, UpdateSourceTrigger=PropertyChanged}"
-                                     Width="155"
+                                      Width="155"
+                                         MaxLength="15"
                                         Padding="6"
                                          md:HintAssist.Hint="Ingresar number.."
                                          md:HintAssist.IsFloating="True" 
@@ -77,9 +78,28 @@
                                 </TextBox>
 
 
+                                <TextBox Text="{Binding SearchByAttribute, UpdateSourceTrigger=PropertyChanged}"
+                                   Width="155"
+                                   Padding="6"
+                                    MaxLength="27"
+                                    md:HintAssist.Hint="Ingresar attribute..."
+                                    md:HintAssist.IsFloating="True" 
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   HorizontalAlignment="Center"
+                                   Margin="5">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="KeyDown">
+                                            <cmd:EventToCommand Command="{Binding SearchByAttributeKeyDownCommand}"
+                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+
+
                                 <TextBox Text="{Binding ValueShortText, UpdateSourceTrigger=PropertyChanged}"
-                               Width="155"
+                                  Width="155"
                                   Padding="6"
+                                  MaxLength="27"
                                    md:HintAssist.Hint="Ingresar value..."
                                    md:HintAssist.IsFloating="True" 
                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -93,21 +113,6 @@
                                     </i:Interaction.Triggers>
                                 </TextBox>
 
-                                <TextBox Text="{Binding SearchByAttribute, UpdateSourceTrigger=PropertyChanged}"
-                                Width="155"
-                                   Padding="6"
-                                    md:HintAssist.Hint="Ingresar attribute..."
-                                    md:HintAssist.IsFloating="True" 
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                   HorizontalAlignment="Center"
-                                   Margin="5">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="KeyDown">
-                                            <cmd:EventToCommand Command="{Binding SearchByAttributeKeyDownCommand}"
-                                   PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </TextBox>
 
 
 
@@ -146,7 +151,7 @@
                         </Border>
 
 
-                        <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12" >
+                        <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12"  Margin="0 15">
                             <StackPanel Margin="5">
                                 <DataGrid ItemsSource="{Binding ItemList}"  
                                      AutoGenerateColumns="False" 
@@ -180,10 +185,13 @@
                                         <DataGridTextColumn Header="Attributes" Binding="{Binding Attribute}" />
                                         <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
                                         <DataGridTextColumn Header="Event Summary" Binding="{Binding EventSummary}" />
+                                        <DataGridTextColumn Header="Comments" Binding="{Binding Comments}" />
                                         <!--<DataGridTextColumn Header="Detail" Binding="{Binding Detail}" Width="50"  />-->
+                                       
+                                      
                                     </DataGrid.Columns>
                                     <!-- Establecer la última fila como editable -->
-                                    <DataGrid.RowDetailsTemplate>
+                                    <!--<DataGrid.RowDetailsTemplate>
                                         <DataTemplate>
                                             <StackPanel>
                                                 <TextBox Text="{Binding DataContext.NuevoComentario, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -193,7 +201,7 @@
                         VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
                                             </StackPanel>
                                         </DataTemplate>
-                                    </DataGrid.RowDetailsTemplate>
+                                    </DataGrid.RowDetailsTemplate>-->
 
                                 </DataGrid>
 

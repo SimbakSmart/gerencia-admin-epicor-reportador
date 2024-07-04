@@ -119,7 +119,7 @@
                                 <Button 
                                   Command="{Binding RefreshCommand}" 
                                  Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                                 ToolTip="Presinar para busqueda"
+                                 ToolTip="Limpiar y recargar información"
                                  HorizontalAlignment="Center"
                                  Margin="5">
                                     <md:PackIcon Kind="Broom" Width="25" Height="25" />
@@ -134,7 +134,7 @@
 
                                 <Button
                               Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                              ToolTip="MaterialDesignOutlinedButton"
+                              ToolTip="Exportar a Excel"
                                 Command="{Binding ExcelReportCommand}"
                              HorizontalAlignment="Center"
                              Margin="5">
@@ -190,6 +190,7 @@
                                        
                                       
                                     </DataGrid.Columns>
+                                   
                                     <!-- Establecer la última fila como editable -->
                                     <!--<DataGrid.RowDetailsTemplate>
                                         <DataTemplate>

@@ -154,6 +154,7 @@
                         <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12"  Margin="0 15">
                             <StackPanel Margin="5">
                                 <DataGrid ItemsSource="{Binding ItemList}"  
+                                          SelectedItem="{Binding SelectedItem}"
                                      AutoGenerateColumns="False" 
                                       Height="877"
                                       HorizontalAlignment="Stretch" 
@@ -187,23 +188,18 @@
                                         <DataGridTextColumn Header="Event Summary" Binding="{Binding EventSummary}" />
                                         <DataGridTextColumn Header="Comments" Binding="{Binding Comments}" />
                                         <!--<DataGridTextColumn Header="Detail" Binding="{Binding Detail}" Width="50"  />-->
-                                       
-                                      
                                     </DataGrid.Columns>
-                                   
-                                    <!-- Establecer la última fila como editable -->
-                                    <!--<DataGrid.RowDetailsTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <TextBox Text="{Binding DataContext.NuevoComentario, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                         AcceptsReturn="True" TextWrapping="Wrap"/>
-                                                <Button Content="Agregar Comentario" Command="{Binding DataContext.AgregarComentarioCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGrid.RowDetailsTemplate>-->
-
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Generar Comentario"
+                                          Command="{Binding SendMessageCommand}"
+                                         CommandParameter="{Binding SelectedItem}">
+                                                <MenuItem.Icon>
+                                                    <md:PackIcon Kind="File" Width="16" Height="16" HorizontalAlignment="Stretch" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
                                 </DataGrid>
 
                             </StackPanel>
@@ -279,7 +275,3 @@
 </UserControl>
 
 
-<!--<StackPanel>
-    <TextBlock Text="Content" />
-    <Button Command="{x:Static md:DialogHost.CloseDialogCommand}" />
-</StackPanel>-->

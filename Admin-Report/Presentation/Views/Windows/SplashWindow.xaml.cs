@@ -20,7 +20,7 @@ namespace Presentation.Views.Windows
             InitializeComponent();
            _service = new CallsInQueuesProvider();
              localStorate = new MessagesRepository();
-            UpdateTheme();
+           
         }
         private void Window_ContentRendered(object sender, System.EventArgs e)
         {
@@ -29,6 +29,7 @@ namespace Presentation.Views.Windows
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
+           // UpdateTheme();
         }
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {

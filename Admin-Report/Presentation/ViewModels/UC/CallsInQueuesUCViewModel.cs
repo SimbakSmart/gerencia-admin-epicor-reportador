@@ -4,8 +4,10 @@ using Core.Models;
 using DocumentFormat.OpenXml.Spreadsheet;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Infraesctructure.Interfaces;
 using Infraesctructure.Services;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using Notifications.Wpf;
 using Presentation.Helpers;
@@ -21,6 +23,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -44,6 +48,21 @@ namespace Presentation.ViewModels.UC
                 RaisePropertyChanged(nameof(ItemList));
             }
         }
+
+
+        private CallsInQueues selectedItem;
+
+        public CallsInQueues SelectedItem
+        {
+            get { return selectedItem; }
+            set { selectedItem = value; RaisePropertyChanged(nameof(SelectedItem)); }
+        }
+
+
+
+
+
+
         private ObservableCollection<Queue> queuesFilter;
 
         public ObservableCollection<Queue> QueuesFilter
@@ -137,6 +156,10 @@ namespace Presentation.ViewModels.UC
         public ICommand ExcelReportCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
 
+        public ICommand SendMessageCommand { get; private set; }
+
+        public ICommand OpenDynamicDialogCommand { get; }
+
         public CallsInQueuesUCViewModel()
         {
             IsLoading = false;
@@ -151,6 +174,7 @@ namespace Presentation.ViewModels.UC
             SearchByAttributeKeyDownCommand = new RelayCommand<KeyEventArgs>(SearchByAttriabuteKeyDown);
             ExcelReportCommand = new RelayCommand(ExcelReport);
             RefreshCommand = new AsyncRelayCommand(RefrehAsync);
+            SendMessageCommand = new RelayCommand<CallsInQueues>(SendMessageAsync);
 
             Task.Run(async () =>
             {
@@ -509,6 +533,106 @@ namespace Presentation.ViewModels.UC
                 IsLoading = false;
             }
         }
+
+
+        private async void SendMessageAsync(CallsInQueues queue)
+        {
+
+            try
+            {
+                //var queryIdPara = $"  ParentID='{id}' ";
+                //var list = await service.FetchAttributesAsync(queryIdPara);
+
+                //var dialog = new AttributeDialog(list);
+
+                //await MaterialDesignThemes.Wpf.DialogHost.Show(dialog);
+                //NotifiactionHelper
+                //   .SetMessage("Información", "La búsqueda se ha realizado con éxito.",
+                //           NotificationType.Success);
+
+                // var dialogContent = new StackPanel();
+                //var dialogContent = new StackPanel();
+
+                //var dialogTextBlock = new TextBlock
+                //{
+                //    Text = dialogViewModel.DialogText,
+                //    Margin = new Thickness(20)
+                //};
+
+                //var closeBtn = new Button
+                //{
+                //    Content = "Cerrar",
+                //    Command = dialogViewModel.CloseCommand,
+                //    Margin = new Thickness(10)
+                //};
+
+                //dialogContent.Children.Add(dialogTextBlock);
+                //dialogContent.Children.Add(closeBtn);
+
+                //await DialogHost.Show(dialogContent, "RootDialog");
+
+
+                //var dialogContent = new StackPanel();
+
+                //var dialogTextBlock = new TextBlock
+                //{
+                //    Text = "Dynamic Dialog!",
+                //    Margin = new Thickness(20)
+                //};
+
+                //var closeBtn = new Button
+                //{
+                //    Content = "Cerrar",
+                //    Command = DialogHost.CloseDialogCommand,
+                //    CommandParameter = null,
+                //    Margin = new Thickness(10)
+                //};
+
+                ////var registerBtn = new Button
+                ////{
+                ////    Content = "Registrar Información",
+                ////    Command = new RelayCommand(null),
+                ////    Margin = new Thickness(10)
+                ////};
+
+                //dialogContent.Children.Add(dialogTextBlock);
+                //dialogContent.Children.Add(closeBtn);
+                ////dialogContent.Children.Add(registerBtn);
+
+                //await MaterialDesignThemes.Wpf.DialogHost.Show(dialogContent);
+
+                //MessageBox.Show(queue.Number.ToString());
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionMessage
+                    .SetMessage("Error", GlobalMessages.INTERNAL_SERVER_ERROR, NotificationType.Error);
+            }
+
+
+        }
+
+        private void OpenDynamicDialog(object parameter)
+        {
+            var queue = parameter as CallsInQueues;
+            if (queue != null)
+            {
+                // Aquí puedes realizar cualquier lógica necesaria antes de abrir el diálogo dinámico
+
+                // Por ejemplo, asignando el texto dinámico
+                var dialogViewModel = new CallsInQueuesUCViewModel
+                {
+                   // DialogText = "Dynamic Dialog! " + queue.Number.ToString()
+                };
+
+                // Ahora, abre el diálogo utilizando el DialogHost de la vista
+                // Puedes utilizar un Messenger o similar para comunicarte con la vista
+                Messenger.Default.Send(new NotificationMessage(dialogViewModel, "OpenDynamicDialog"));
+            }
+        }
+
 
 
         private void ClearFilters()

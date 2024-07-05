@@ -1,4 +1,7 @@
 ﻿using Microsoft.Win32;
+using Notifications.Wpf;
+using Presentation.Helpers;
+using Presentation.Utils;
 using Presentation.ViewModels.Windows;
 using System;
 using System.Runtime.InteropServices;
@@ -20,7 +23,7 @@ namespace Presentation.Views.Windows
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel(this);
-            SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+           SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -52,7 +55,11 @@ namespace Presentation.Views.Windows
             //        break;
             //}
             Application.Current.Shutdown();
-             MessageBox.Show("El aplicativo fue cerrado.");
+            // MessageBox.Show("El aplicativo fue cerrado.");
+            //NotifiactionMessage
+            //   .SetMessage("Información", "Se libero el aplicativo por motivos de rendimiento",
+            //           NotificationType.Success);
+
 
         }
 

@@ -9,7 +9,7 @@
         xmlns:uc="clr-namespace:Presentation.Views.UC"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
-         Title="Reporteador de Epicor" 
+        Title="Reporteador de Epicor" 
         Height="700" 
         Width="900"
         MinHeight="940"
